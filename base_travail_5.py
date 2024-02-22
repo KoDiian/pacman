@@ -132,6 +132,8 @@ keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
 player_pos = Pos(0, 1)
 
+number_move = 0
+
 # Tour de boucle, pour chaque FPS
 while running:
 
@@ -185,24 +187,29 @@ while running:
         new_x, new_y = player_pos.x, player_pos.y
         if keys['UP'] == 1:
             new_y -= 1
+            number_move +=1
             if new_y < 0:  # Si PACMAN atteint le bord supérieur
                 new_y = size[1] - 1  # PACMAN réapparaît en bas
         elif keys['DOWN'] == 1:
             new_y += 1
+            number_move +=1
             if new_y >= size[1]:  # Si PACMAN atteint le bord inférieur
                 new_y = 0  # PACMAN réapparaît en haut
         elif keys['LEFT'] == 1:
             new_x -= 1
+            number_move +=1
             if new_x < 0:  # Si PACMAN atteint le bord gauche
                 new_x = size[0] - 1  # PACMAN réapparaît à droite
         elif keys['RIGHT'] == 1:
             new_x += 1
+            number_move +=1
             if new_x >= size[0]:  # Si PACMAN atteint le bord droit
                 new_x = 0  # PACMAN réapparaît à gauche
 
         # Vérification du déplacement du joueur                                    
         if laby.hit_box(new_x, new_y):
             print("")  # Affichage dans la console
+            print(number_move)
             running = False  # Arrêt du jeu si le joueur touche un mur
         else:
             player_pos.x, player_pos.y = new_x, new_y
