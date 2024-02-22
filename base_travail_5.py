@@ -3,6 +3,7 @@ import random
 from utils import convert_data
 from grid import Grid
 from utils import Pos
+from bonus import Bonus
 
 class Labyrinthe:
     # constructeur
