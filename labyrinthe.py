@@ -1,6 +1,14 @@
 import pygame
 from utils import convert_data
-from bonus import Bonus  # Import de la classe Bonus
+
+class Bonus:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.active = True  # Indique si le bonus est actif ou non
+
+    def deactivate(self):
+        self.active = False
 
 class Labyrinthe:
     def __init__(self, sizeX, sizeY, main_loop=None):
@@ -79,11 +87,18 @@ class Labyrinthe:
         if x >= self.sizeX or x < 0 or y < 0 or y >= self.sizeY:
             return True
         if self.matrice[y][x] == 1:
-            print("Vous avez perdu")  # Si le joueur touche un mur, on imprime "perdu" dans la console
             if self.main_loop:
                 self.main_loop.running = False  # Ferme le jeu si la boucle principale est définie
             return True
         return False
+
+    def process_bonus_collision(self, x, y):
+        """Gérer la collision avec les bonus"""
+        for bonus in self.bonuses:
+            if bonus.active and bonus.x == x and bonus.y == y:
+                bonus.deactivate()  # Désactiver le bonus
+                return True  # Indiquer qu'une collision avec un bonus a eu lieu
+        return False  # Aucune collision avec un bonus
 
     def draw(self, screen, tilesize):
         """Dessine le labyrinthe sur la fenêtre screen"""
@@ -95,6 +110,12 @@ class Labyrinthe:
                     # Dessiner un bonus à cette position si le bonus est actif
                     for bonus in self.bonuses:
                         if bonus.active and bonus.x == i and bonus.y == j:
-                            pygame.draw.rect(screen, (255, 255, 255), (i * tilesize, j * tilesize, tilesize, tilesize))
+                            pygame.draw.rect(screen, (255, 255, 255), (i * tilesize + tilesize // 3, j * tilesize + tilesize // 3, tilesize // 2, tilesize // 2))
+                            break  # Arrêter la recherche de bonus pour cette position
+                    else:
+                        pygame.draw.rect(screen, (0, 0, 0), (i * tilesize + tilesize // 3, j * tilesize + tilesize // 3, tilesize // 2, tilesize // 2))  # Dessiner un carré noir si aucun bonus n'est actif
 
+# Initialisation de la variable score
+score = 0
 
+# Mettez la boucle principale de jeu ici avec les modifications nécessaires pour gérer la collision avec les bonus
