@@ -18,11 +18,11 @@ next_move = 0 #tic avant déplacement
 color = {
     "ground_color" : "#EDDACF",
     "grid_color" : "#7F513D",
-    "player_color" : "#9F715D",
-    "wall_color" : "#000000"
+    "player_color" : "#ffff08",
+    "wall_color" : "#0000FF"
 }
 
-level = "data/laby-02.dat"
+level = "data/laby-01.dat"
 
 laby = Labyrinthe(size[0], size[1])
 laby.load_from_file(level)
@@ -124,7 +124,7 @@ while running:
     if show_grid:
         grid.draw(screen)
 
-    pygame.draw.rect(screen, color["player_color"], pygame.Rect(player_pos.x*tilesize, player_pos.y*tilesize, tilesize, tilesize))
+    pygame.draw.circle(screen, color["player_color"], (player_pos.x*tilesize + tilesize//2, player_pos.y*tilesize + tilesize//2), tilesize//2)
 
     # affichage des modification du screen_view
     pygame.display.flip()
