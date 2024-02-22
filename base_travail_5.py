@@ -107,7 +107,10 @@ while running:
             new_x += 1
 
         # vérification du déplacement du joueur                                    
-        if not laby.hit_box(new_x, new_y):
+        if laby.hit_box(new_x, new_y):
+            print("Perdu!")  # Affichage dans la console
+            running = False  # Arrêt du jeu si le joueur touche un mur
+        else:
             player_pos.x, player_pos.y = new_x, new_y
             next_move -= player_speed
 
