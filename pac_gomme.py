@@ -26,7 +26,11 @@ class Pac_Gomme:
     
     def afficher(self):
         for gomme in self.pac_gomme:
-            pygame.draw.circle(self.screen, (0, 0, 255), (gomme[0] * self.tilesize + self.tilesize // 2, gomme[1] * self.tilesize + self.tilesize // 2), self.tilesize // 4)
+           pygame.draw.polygon(self.screen, (0, 0, 255), [(gomme[0] * self.tilesize + self.tilesize // 2, gomme[1] * self.tilesize), 
+                                               ((gomme[0] + 1) * self.tilesize, gomme[1] * self.tilesize + self.tilesize // 2),
+                                               (gomme[0] * self.tilesize + self.tilesize // 2, (gomme[1] + 1) * self.tilesize),
+                                               (gomme[0] * self.tilesize, gomme[1] * self.tilesize + self.tilesize // 2)])
+
 
     def ramasser(self, player_pos):
         for gomme in self.pac_gomme:
