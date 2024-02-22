@@ -4,6 +4,7 @@ import random
 from labyrinthe import Labyrinthe
 from grid import Grid
 from utils import Pos
+from pac import *
 # pygame setup
 pygame.init()
 
