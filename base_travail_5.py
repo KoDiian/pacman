@@ -4,6 +4,7 @@ from utils import Pos
 from bonus import *
 from pac import *
 from labyrinthe import Labyrinthe
+from pac_gomme import *
 
 pygame.init()
 
@@ -19,7 +20,8 @@ color = {
     "ground_color": "#EDDACF",
     "grid_color": "#7F513D",
     "player_color": "#ffff08",
-    "wall_color": "#0000FF"
+    "wall_color": "#0000FF",
+    "gomme_color": "#00FFFF",
 }
 
 level = "data/laby-01.dat"
@@ -44,6 +46,11 @@ keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 player_pos = Pos(0, 1)
 
 number_move = 0
+gomme = Pac_Gomme(screen, laby, tilesize, color["gomme_color"])
+for _ in range(5):
+    gomme.placement()
+
+score = 0
 
 # Tour de boucle, pour chaque FPS
 while running:
@@ -119,9 +126,8 @@ while running:
 
         # Vérification du déplacement du joueur                                    
         if laby.hit_box(new_x, new_y):
-            print("")  # Affichage dans la console
-            print(number_move)
-            running = False  # Arrêt du jeu si le joueur touche un mur
+            
+            running = True  # Arrêt du jeu si le joueur touche un mur
         else:
             player_pos.x, player_pos.y = new_x, new_y
             next_move -= player_speed
@@ -133,11 +139,15 @@ while running:
     # Affichage des différents composants graphiques
     #
     screen.fill(color["ground_color"])
+    gomme.afficher()
 
     laby.draw(screen, tilesize)
 
     if show_grid:
         grid.draw(screen)
+
+    if gomme.ramasser(player_pos):
+        score += 100
 
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
 
@@ -146,4 +156,6 @@ while running:
     # Gestion fps
     dt = clock.tick(fps)
 
+print(score)
+print(number_move)
 pygame.quit()
