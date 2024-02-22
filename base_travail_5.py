@@ -9,7 +9,7 @@ pygame.init()
 
 # Constantes
 tilesize = 32  # taille d'une tuile IG
-size = (20, 10)  # taille du monde
+size = (22, 22)  # taille du monde
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
@@ -23,7 +23,7 @@ color = {
     "gomme_color": "#00FFFF",
 }
 
-level = "data/laby-01.dat"
+level = "data/laby-02.dat"
 
 laby = Labyrinthe(size[0], size[1])
 laby.load_from_file(level)
@@ -42,7 +42,7 @@ show_pos = False
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
-player_pos = Pos(0, 1)
+player_pos = Pos(9, 18)
 
 number_move = 0
 gomme = Pac_Gomme(screen, laby, tilesize, color["gomme_color"])

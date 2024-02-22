@@ -9,12 +9,7 @@ class Pac_Gomme:
         self.tilesize = tilesize
         self.pac_gomme = []
         self.nb_pac_gomme = 0
-        self.points = [
-            (),
-            (),
-            (),
-            ()
-        ]
+    
 
 
     def placement(self):
