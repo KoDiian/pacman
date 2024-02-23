@@ -151,7 +151,7 @@ while running:
         grid.draw(screen)
 
     if gomme.ramasser(player_pos):
-        score += 100
+        score += 99
 
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
     gomme.afficher()
