@@ -1,5 +1,4 @@
 import pygame
-
 from utils import Pos
 from pac import *
 from labyrinthe import Labyrinthe
@@ -9,7 +8,7 @@ pygame.init()
 
 # Constantes
 tilesize = 32  # taille d'une tuile IG
-size = (19, 22)  # taille du monde
+size = (19, 23)  # taille du monde
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
@@ -35,11 +34,13 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-show_pos = False
+
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
-player_pos = Pos(9, 18)
+player_pos = Pos(9, 19)
+
+pacman = Pacman(color["player_color"], (9,19))
 
 number_move = 0
 gomme = Pac_Gomme(screen, laby, tilesize, color["gomme_color"])
@@ -82,12 +83,7 @@ while running:
 
             if event.key == pygame.K_ESCAPE:
                 running = False
-            if event.key == pygame.K_p:
-                show_pos = not show_pos
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            print("mouse_pos:", pos)
 
     #
     # Gestion des déplacements
@@ -119,8 +115,8 @@ while running:
 
         # Vérification du déplacement du joueur
         if laby.hit_box(new_x, new_y):
-            
-            running = True  # Arrêt du jeu si le joueur touche un mur
+            number_move -=1
+            running = True  
         else:
             player_pos.x, player_pos.y = new_x, new_y
             next_move -= player_speed
@@ -131,8 +127,7 @@ while running:
                 # Par exemple, ici, j'augmente le score de 1
                 score += 1
 
-        if show_pos:
-            print("pos: ", player_pos)
+
 
     #
     # Affichage des différents composants graphiques
@@ -144,7 +139,7 @@ while running:
 
 
     if gomme.ramasser(player_pos):
-        score += 99
+        score += 100
 
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
     gomme.afficher()
@@ -153,6 +148,6 @@ while running:
     # Gestion fps
     dt = clock.tick(fps)
 
-print(score)
-print(number_move)
+print("Votre score est de ",score)
+print("Votre nombre de pas est de ",number_move)
 pygame.quit()

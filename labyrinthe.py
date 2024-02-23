@@ -87,8 +87,6 @@ class Labyrinthe:
         if x >= self.sizeX or x < 0 or y < 0 or y >= self.sizeY:
             return True
         if self.matrice[y][x] == 1:
-            if self.main_loop:
-                self.main_loop.running = False  # Ferme le jeu si la boucle principale est définie
             return True
         return False
 

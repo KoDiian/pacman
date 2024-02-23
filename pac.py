@@ -1,8 +1,12 @@
 import pygame
+from utils import Pos
 class Pacman:
-    def __init__(self):
+    def __init__(self, color, pos):
         self.body = [(200, 200)]
         self.direction = (1, 0)
+        self.color_body = color
+        self.pos_x = pos[0]
+        self.pos_y = pos[1]
 
     def move(self, tilesize, size):
         width = size[0]
@@ -12,6 +16,5 @@ class Pacman:
         new_head = ((x + dx * tilesize) % width, (y + dy * tilesize) % height)
         self.body.insert(0, new_head)
     
-    def draw(self, surface, tilesize):
-        for segment in self.body:
-            pygame.draw.rect(surface, (0, 255,0), (segment[0], segment[1], tilesize, tilesize))
+    def draw(self, screen, tilesize):
+        pygame.draw.circle(screen, self.color_body, (self.pos_x * tilesize + tilesize // 2, self.pos_y * tilesize + tilesize // 2), tilesize // 2)
