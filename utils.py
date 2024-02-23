@@ -14,7 +14,7 @@ def convert_data(v):
     """Converti les données textes en nombres"""
     if v=="D":
         return 100
-    elif v=="A":
+    elif v=="F":
         return 101
     else:
         return int(v)
