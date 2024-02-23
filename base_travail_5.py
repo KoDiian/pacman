@@ -1,5 +1,5 @@
 import pygame
-from grid import Grid
+
 from utils import Pos
 from pac import *
 from labyrinthe import Labyrinthe
@@ -17,7 +17,6 @@ next_move = 0  # tic avant déplacement
 # Couleurs
 color = {
     "ground_color": "#000000",
-    "grid_color": "#7F513D",
     "player_color": "#ffff08",
     "wall_color": "#0000FF",
     "gomme_color": "#00FFFF",
@@ -29,15 +28,13 @@ laby = Labyrinthe(size[0], size[1])
 laby.load_from_file(level)
 laby.set_color(color["wall_color"])
 
-grid = Grid(size[0], size[1], tilesize)
-grid.set_color(color["grid_color"])
+
 
 screen = pygame.display.set_mode((size[0] * tilesize, size[1] * tilesize))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
-show_grid = True
 show_pos = False
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
@@ -85,8 +82,6 @@ while running:
 
             if event.key == pygame.K_ESCAPE:
                 running = False
-            if event.key == pygame.K_g:
-                show_grid = not show_grid
             if event.key == pygame.K_p:
                 show_pos = not show_pos
 
@@ -147,8 +142,6 @@ while running:
 
     laby.draw(screen, tilesize)
 
-    if show_grid:
-        grid.draw(screen)
 
     if gomme.ramasser(player_pos):
         score += 99
