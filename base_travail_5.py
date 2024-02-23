@@ -9,7 +9,7 @@ pygame.init()
 
 # Constantes
 tilesize = 32  # taille d'une tuile IG
-size = (22, 22)  # taille du monde
+size = (19, 22)  # taille du monde
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
