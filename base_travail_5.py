@@ -21,7 +21,9 @@ color = {
     "gomme_color": "#00FFFF",
 }
 
-
+# Texte
+BLACK = (0, 0, 0)
+font = pygame.font.SysFont(None, 48)
 
 level = "data/laby-02.dat"
 
@@ -151,7 +153,8 @@ while running:
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
 
     gomme.afficher()
-    
+    score_text = font.render("Score: " + str(score), True, BLACK)
+    screen.blit(score_text, (10, 2))  # Position du texte
     # Affichage des modifications du screen_view
     pygame.display.flip()
     # Gestion fps
