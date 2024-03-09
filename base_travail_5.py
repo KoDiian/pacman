@@ -153,8 +153,13 @@ while running:
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
 
     gomme.afficher()
-    score_text = font.render("Score: " + str(score), True, BLACK)
-    screen.blit(score_text, (10, 2))  # Position du texte
+
+    score_text = font.render("Score: " + str(score), True, BLACK) 
+    screen.blit(score_text, (10, 2)) 
+    move_text = font.render("Move: " + str(number_move), True, BLACK)
+    screen.blit(move_text, (200, 2))
+  
+
     # Affichage des modifications du screen_view
     pygame.display.flip()
     # Gestion fps
