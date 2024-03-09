@@ -8,7 +8,7 @@ pygame.init()
 
 # Constantes
 tilesize = 32  # taille d'une tuile IG
-size = (19, 23)  # taille du monde
+size = (19, 22)  # taille du monde
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
@@ -20,6 +20,8 @@ color = {
     "wall_color": "#0000FF",
     "gomme_color": "#00FFFF",
 }
+
+
 
 level = "data/laby-02.dat"
 
@@ -38,7 +40,7 @@ dt = 0
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
-player_pos = Pos(9, 19)
+player_pos = Pos(9, 18)
 
 pacman = Pacman(color["player_color"], (9,19))
 
@@ -54,8 +56,15 @@ while running:
 
     # Lecture clavier / souris
     for event in pygame.event.get():
+        # Si on clique sur la croix rouge le jeu se ferme
         if event.type == pygame.QUIT:
             running = False
+
+        # Verifie si une touche est appuyé
+        if event.type == pygame.KEYUP:
+            # Si la touche echap est appuyé le jeu se ferme
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_z or event.key == pygame.K_UP:
@@ -81,8 +90,7 @@ while running:
                 keys['RIGHT'] = 0
                 next_move = 1
 
-            if event.key == pygame.K_ESCAPE:
-                running = False
+            
 
 
     #
@@ -140,9 +148,10 @@ while running:
 
     if gomme.ramasser(player_pos):
         score += 100
-
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
+
     gomme.afficher()
+    
     # Affichage des modifications du screen_view
     pygame.display.flip()
     # Gestion fps
