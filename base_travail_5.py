@@ -107,35 +107,79 @@ while running:
             number_move += 1
             if new_y < 0:  # Si PACMAN atteint le bord supérieur
                 new_y = size[1] - 1  # PACMAN réapparaît en bas
+              # Vérification du déplacement du joueur
+            if laby.hit_box(new_x, new_y):
+                number_move -=1 
+            else:
+                player_pos.x, player_pos.y = new_x, new_y
+                next_move -= player_speed
+
+                # Gestion de la collision avec les bonus
+                if laby.process_bonus_collision(player_pos.x, player_pos.y):
+                    score += 1
+                else:
+                    score -=1
+
+        
         elif keys['DOWN'] == 1:
             new_y += 1
             number_move += 1
             if new_y >= size[1]:  # Si PACMAN atteint le bord inférieur
                 new_y = 0  # PACMAN réapparaît en haut
+               # Vérification du déplacement du joueur
+            if laby.hit_box(new_x, new_y):
+                number_move -=1 
+            else:
+                player_pos.x, player_pos.y = new_x, new_y
+                next_move -= player_speed
+
+                # Gestion de la collision avec les bonus
+                if laby.process_bonus_collision(player_pos.x, player_pos.y):
+                    score += 1
+                else:
+                    score -=1
+
+        
         elif keys['LEFT'] == 1:
             new_x -= 1
             number_move += 1
             if new_x < 0:  # Si PACMAN atteint le bord gauche
                 new_x = size[0] - 1  # PACMAN réapparaît à droite
+               # Vérification du déplacement du joueur
+            if laby.hit_box(new_x, new_y):
+                number_move -=1 
+            else:
+                player_pos.x, player_pos.y = new_x, new_y
+                next_move -= player_speed
+
+                # Gestion de la collision avec les bonus
+                if laby.process_bonus_collision(player_pos.x, player_pos.y):
+                    score += 1
+                else:
+                    score -=1
+
+        
         elif keys['RIGHT'] == 1:
             new_x += 1
             number_move += 1
             if new_x >= size[0]:  # Si PACMAN atteint le bord droit
                 new_x = 0  # PACMAN réapparaît à gauche
+               # Vérification du déplacement du joueur
+            if laby.hit_box(new_x, new_y):
+                number_move -=1
+            else:
+                player_pos.x, player_pos.y = new_x, new_y
+                next_move -= player_speed
 
-        # Vérification du déplacement du joueur
-        if laby.hit_box(new_x, new_y):
-            number_move -=1
-            running = True  
-        else:
-            player_pos.x, player_pos.y = new_x, new_y
-            next_move -= player_speed
+                # Gestion de la collision avec les bonus
+                if laby.process_bonus_collision(player_pos.x, player_pos.y):
+                    score += 1
+                else:
+                    score -=1
 
-            # Gestion de la collision avec les bonus
-            if laby.process_bonus_collision(player_pos.x, player_pos.y):
-                # Si le joueur a ramassé un bonus, faites quelque chose, comme augmenter son score
-                # Par exemple, ici, j'augmente le score de 1
-                score += 1
+        
+
+      
 
 
 
