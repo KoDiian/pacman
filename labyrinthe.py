@@ -81,6 +81,8 @@ class Labyrinthe:
                 if self.matrice[i][j] == 0:  # Si la case n'est pas un mur
                     # Créer un bonus à cette position
                     self.bonuses.append(Bonus(j, i))
+                    
+                    
 
     def hit_box(self, x, y):
         """Indique si l'élément (x,y) est un mur"""
