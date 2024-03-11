@@ -8,7 +8,7 @@ pygame.init()
 
 # Constantes
 tilesize = 32  # taille d'une tuile IG
-size = (19, 22)  # taille du monde
+size = (20, 10)  # taille du monde 20/10 ou 19/22
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
@@ -25,7 +25,7 @@ color = {
 BLACK = (0, 0, 0)
 font = pygame.font.SysFont(None, 48)
 
-level = "data/laby-02.dat"
+level = "data/laby-01.dat"
 
 laby = Labyrinthe(size[0], size[1])
 laby.load_from_file(level)
@@ -42,7 +42,7 @@ dt = 0
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
-player_pos = Pos(9, 18)
+player_pos = Pos(10, 7) # 10/7 ou 9/18
 
 pacman = Pacman(color["player_color"], (9,19))
 
