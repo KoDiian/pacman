@@ -33,6 +33,7 @@ level1 = "data/laby-01.dat"
 level2 = "data/laby-02.dat"
 
 score = 0
+hall_of_frame = "score.txt"
 
 player_pos = Pos(10, 7) # 10/7 ou 9/18
 player_pos_level1 = Pos(10, 7)
@@ -442,8 +443,13 @@ while running:
     dt = clock.tick(fps)
 
     if bonus_number == 0:
+        with open(hall_of_frame, "a") as fichier:
+            fichier.write("\n")
+            fichier.write(str(score))
         running = False
 
 print("Votre score est de ",score)
 print("Votre nombre de pas est de ",number_move)
+
+
 pygame.quit()
