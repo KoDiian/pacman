@@ -1,5 +1,6 @@
 import pygame
 from utils import convert_data
+from fantome import Fantome
 
 class Bonus:
     def __init__(self, x, y):
@@ -22,6 +23,7 @@ class Labyrinthe:
         self.color = (0, 0, 255)  # Couleur par défaut des murs en bleu
         self.main_loop = main_loop  # Référence à la boucle principale du jeu
         self.bonuses = []  # Liste pour stocker les bonus
+        self.fantomes = []
 
     def set_color(self, v):
         """Fixe la couleur pour dessiner les murs"""
@@ -81,7 +83,8 @@ class Labyrinthe:
                 if self.matrice[i][j] == 0:  # Si la case n'est pas un mur
                     # Créer un bonus à cette position
                     self.bonuses.append(Bonus(j, i))
-                    
+                elif self.matrice[i][j] == 9:
+                    self.fantomes.append(Fantome(j, i))                    
                     
 
     def hit_box(self, x, y):
@@ -115,5 +118,6 @@ class Labyrinthe:
                     else:
                         pygame.draw.rect(screen, (0, 0, 0), (i * tilesize + tilesize // 3, j * tilesize + tilesize // 3, tilesize // 2, tilesize // 2))  # Dessiner un carré noir si aucun bonus n'est actif
 
-
+        for fantome in self.fantomes:
+            fantome.draw(screen, tilesize)
 

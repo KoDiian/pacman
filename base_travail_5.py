@@ -4,6 +4,7 @@ from pac import *
 from labyrinthe import Labyrinthe
 from pac_gomme import *
 from utils import convert_data
+from fantome import Fantome
 
 pygame.init()
 
@@ -15,6 +16,7 @@ size_level2 = (19, 22)
 fps = 30  # fps du jeu
 player_speed = 200  # vitesse du joueur
 next_move = 0  # tic avant déplacement
+pacman_powered_up = False 
 
 # Couleurs
 color = {
@@ -26,18 +28,23 @@ color = {
 
 # Texte
 BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 font = pygame.font.SysFont(None, 48)
 
-level = "data/laby-01.dat"
+
+
+
 level1 = "data/laby-01.dat"
 level2 = "data/laby-02.dat"
+level = level1
 
 score = 0
 hall_of_frame = "score.txt"
 
-player_pos = Pos(10, 7) # 10/7 ou 9/18
+
 player_pos_level1 = Pos(10, 7)
 player_pos_level2 = Pos(9, 18)
+player_pos = player_pos_level1
 
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
@@ -56,6 +63,13 @@ screen = pygame.display.set_mode((size[0] * tilesize, size[1] * tilesize))
 clock = pygame.time.Clock()
 dt = 0
 
+fantomes = []
+for _ in range(4):
+    while True:
+        x, y = random.randint(0, size[0] - 1), random.randint(0, size[1] - 1)
+        if not laby.hit_box(x, y):
+            fantomes.append(Fantome(x, y))
+            break
 
 number_move = 0
 
@@ -118,7 +132,7 @@ while running:
                 keys['RIGHT'] = 0
                 next_move = 1
 
-            
+         
 
 
     #
@@ -207,9 +221,39 @@ while running:
                 else:
                     score -=1
 
+    #
+    # Détection de collision avec les fantômes
+    #
+    for fantome in fantomes:
+        if (player_pos.x, player_pos.y) == (fantome.x, fantome.y):
+            if not pacman_powered_up:
+                running = False
+                print("Vous avez perdu !")
+            else:
+                fantomes.remove(fantome)
+                score += 50
+                print("Fantôme mangé ! Score +50")
+
+    # Vérifier si la minuterie de l'alimentation de PACMAN a expiré
+    if pacman_powered_up:
+        current_time = pygame.time.get_ticks()
+        if current_time - power_up_timer >= 15000:  # 15 secondes en millisecondes
+            pacman_powered_up = False
+
+    #
+    # Déplacement aléatoire des fantômes
+    #
+    for fantome in fantomes:
+        fantome.move_randomly(laby)
+
+    #
+    # Vérification et réapparition des fantômes
+    #
+    Fantome.check_respawn()
+
         
 
-      
+ 
 
 
 
@@ -224,6 +268,9 @@ while running:
 
     if gomme.ramasser(player_pos):
         score += 100
+        # Déclencher l'état de PACMAN alimenté et la minuterie
+        pacman_powered_up = True
+        power_up_timer = pygame.time.get_ticks()
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
 
     gomme.afficher()
@@ -232,6 +279,15 @@ while running:
     screen.blit(score_text, (10, 2)) 
     move_text = font.render("Move: " + str(number_move), True, BLACK)
     screen.blit(move_text, (200, 2))
+    # Affichage des fantômes
+    for fantome in fantomes:
+        fantome.draw(screen, tilesize)
+
+    # Affichage d'un message si le joueur a perdu
+    if not running:
+        lost_text = font.render("Vous avez perdu !", True, WHITE)
+        screen.blit(lost_text, (size[0] * tilesize // 2 - 150, size[1] * tilesize // 2 - 24))
+        print("Vous avez perdu !")
   
 
     # Affichage des modifications du screen_view
@@ -241,13 +297,13 @@ while running:
 
     if bonus_number == 0:
         running = False
-        
-
-if level == level1:
+        if level == level1:
             level = level2
             size = size_level2
             player_pos = player_pos_level2
-            running = True    
+            running = True
+
+    
 
 
 # Second level
@@ -410,7 +466,35 @@ while running:
                 else:
                     score -=1
 
-        
+        #
+    # Détection de collision avec les fantômes
+    #
+    for fantome in fantomes:
+        if (player_pos.x, player_pos.y) == (fantome.x, fantome.y):
+            if not pacman_powered_up:
+                running = False
+                print("Vous avez perdu !")
+            else:
+                fantomes.remove(fantome)
+                score += 50
+                print("Fantôme mangé ! Score +50")
+
+    # Vérifier si la minuterie de l'alimentation de PACMAN a expiré
+    if pacman_powered_up:
+        current_time = pygame.time.get_ticks()
+        if current_time - power_up_timer >= 15000:  # 15 secondes en millisecondes
+            pacman_powered_up = False
+
+    #
+    # Déplacement aléatoire des fantômes
+    #
+    for fantome in fantomes:
+        fantome.move_randomly(laby)
+
+    #
+    # Vérification et réapparition des fantômes
+    #
+    Fantome.check_respawn()       
 
       
 
@@ -427,6 +511,9 @@ while running:
 
     if gomme.ramasser(player_pos):
         score += 100
+        # Déclencher l'état de PACMAN alimenté et la minuterie
+        pacman_powered_up = True
+        power_up_timer = pygame.time.get_ticks()
     pygame.draw.circle(screen, color["player_color"], (player_pos.x * tilesize + tilesize // 2, player_pos.y * tilesize + tilesize // 2), tilesize // 2)
 
     gomme.afficher()
@@ -435,6 +522,16 @@ while running:
     screen.blit(score_text, (10, 2)) 
     move_text = font.render("Move: " + str(number_move), True, BLACK)
     screen.blit(move_text, (200, 2))
+
+    # Affichage des fantômes
+    for fantome in fantomes:
+        fantome.draw(screen, tilesize)
+
+    # Affichage d'un message si le joueur a perdu
+    if not running:
+        lost_text = font.render("Vous avez perdu !", True, WHITE)
+        screen.blit(lost_text, (size[0] * tilesize // 2 - 150, size[1] * tilesize // 2 - 24))
+        print("Vous avez perdu !")
   
 
     # Affichage des modifications du screen_view
