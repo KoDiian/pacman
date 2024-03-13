@@ -297,13 +297,16 @@ while running:
 
     if bonus_number == 0:
         running = False
-        if level == level1:
-            level = level2
-            size = size_level2
-            player_pos = player_pos_level2
-            running = True
+        
+if bonus_number == 0:
+    if level == level1:
+        level = level2
+        size = size_level2
+        player_pos = player_pos_level2
+        running = True 
+    else:
+        pygame.quit()
 
-    
 
 
 # Second level
@@ -337,6 +340,13 @@ with open(level) as file:
 gomme = Pac_Gomme(screen, laby, tilesize, color["gomme_color"])
 for _ in range(5):
     gomme.placement()
+
+for _ in range(4):
+    while True:
+        x, y = random.randint(0, size[0] - 1), random.randint(0, size[1] - 1)
+        if not laby.hit_box(x, y):
+            fantomes.append(Fantome(x, y))
+            break
 
 
 while running:
